@@ -27,6 +27,7 @@ import (
   "image/color"
 )
 
+// DXTFlag is an int type used to specify which DXT algorithm to use.
 type DXTFlag int
 
 const (
