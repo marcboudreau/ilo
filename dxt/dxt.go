@@ -18,7 +18,7 @@
  */
 package dxt
 
-// #include "fshtool.h"
+// #include "dxt.h"
 import "C"
 
 import (
@@ -27,18 +27,19 @@ import (
   "image/color"
 )
 
-// DXTFlag is an int type used to specify which DXT algorithm to use.
-type DXTFlag int
+// Flag is an int type used to specify which DXT algorithm to use.
+type Flag int
 
 const (
-  DXT1 DXTFlag = iota
-  DXT3 DXTFlag = iota
+  // DXT1 specifies the DXT-1 algorithm.
+  DXT1 Flag = iota
+  // DXT3 specifies the DXT-3 algorithm.
+  DXT3 Flag = iota
 )
 
-func Encode(img image.Image, flag DXTFlag) ([]byte, error) {
-  // fmt.Printf("ENTER Encode(img: %v, flag: %d)\n", img, flag)
-  // defer fmt.Println("EXIT Encode()\n")
-
+// Encode encodes the provided Image using the specified DXT algorithm.  The result is
+// returned as a byte slice.
+func Encode(img image.Image, flag Flag) ([]byte, error) {
   if err := validateImageSize(img.Bounds()); err != nil {
     return nil, err
   }
@@ -47,9 +48,6 @@ func Encode(img image.Image, flag DXTFlag) ([]byte, error) {
   for i := 0; i < 16; i++ {
     color := img.At(i % 4, i / 4)
     pixels[i] = convertColorToCULong(color)
-
-    // fmt.Printf("  image color: %08x\n", color)
-    // fmt.Printf("  converted pixel: %08x\n", pixels[i])
   }
 
   packed := make([]C.uchar, 8)
@@ -60,7 +58,6 @@ func Encode(img image.Image, flag DXTFlag) ([]byte, error) {
 
   result := make([]byte, 8)
   for i := range packed {
-    // fmt.Printf("  packed pixel: %02x\n", packed[i])
     result[i] = byte(packed[i])
   }
 
@@ -78,10 +75,4 @@ func validateImageSize(bounds image.Rectangle) error {
   }
 
   return nil
-}
-
-func Decode(data []byte) (image.Image, error) {
-
-
-  return nil, nil
 }

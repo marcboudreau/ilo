@@ -1,6 +1,6 @@
 /************************************************************************
 
- FSH decompressor/compressor
+ QFS decompressor/compressor
  Copyright 2016 Marc Boudreau
 
  Based on code released by Denis Auroux under the GNU GPL.
@@ -14,10 +14,4 @@
 
 *************************************************************************/
 
-void unpack_dxt(unsigned char mask, unsigned short col1, unsigned short col2,
-                unsigned char *target);
-
-int score_dxt(unsigned long *px, int nstep, unsigned long col1,
-              unsigned long col2, unsigned long *pack);
-
-void pack_dxt(unsigned long *px, unsigned char *dest);                
+int compress_data(unsigned char *inbuf, int inbuflen, unsigned char *outbuf, int *outbuflen);
